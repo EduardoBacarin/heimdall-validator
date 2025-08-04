@@ -1,0 +1,19 @@
+{
+    "name": "bacarin/heimdall-validator",
+    "description": "A pure PHP validation package inspired in Laravel way to validate data. Made in raw PHP without any dependency.",
+    "type": "library",
+    "license": "ISC",
+    "autoload": {
+        "psr-4": {
+            "Bacarin\\": "src/",
+            "Bacarin\\Heimdall\\Rules\\": "src/Rules"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eduardo Bacarin",
+            "email": "me@bacarin.dev"
+        }
+    ],
+    "require": {}
+}
