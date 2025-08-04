@@ -28,12 +28,11 @@ class Heimdall
                 }
 
                 if ($rule === 'sometimes' || $rule === 'nullable') {
-                    continue; // não valida diretamente
+                    continue;
                 }
 
-                // Se valor for nulo e existir nullable, pula as outras regras
                 if ($hasNullable && ($value === null || $value === '')) {
-                    break; // não valida mais regras para esse campo
+                    break;
                 }
 
                 $ruleName = self::ruleToClass($rule);

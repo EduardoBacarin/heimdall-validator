@@ -428,7 +428,7 @@ function test_date_with_format_failed()
 
 function test_sometimes_success_not_sent()
 {
-    $data = []; // campo não enviado
+    $data = [];
     $rules = ['nickname' => 'sometimes|string'];
     $return = Heimdall::validate($rules, $data);
     if ($return['valid']) {
