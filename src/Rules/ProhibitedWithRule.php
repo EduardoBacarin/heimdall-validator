@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class ProhibitedWith
+class ProhibitedWithRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {

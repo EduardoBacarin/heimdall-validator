@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class In
+class InRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {

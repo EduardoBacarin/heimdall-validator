@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class RequiredIf
+class RequiredIfRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {

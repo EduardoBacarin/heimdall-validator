@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class Boolean
+class BooleanRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {

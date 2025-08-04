@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class Email
+class EmailRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {

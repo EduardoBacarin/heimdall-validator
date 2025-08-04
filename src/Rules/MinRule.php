@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class Min
+class MinRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {

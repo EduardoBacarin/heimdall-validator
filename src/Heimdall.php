@@ -20,7 +20,7 @@ class Heimdall
                 }
 
                 $ruleName = self::ruleToClass($rule);
-                $class = __NAMESPACE__ . '\\Heimdall\\Rules\\' . $ruleName;
+                $class = __NAMESPACE__ . '\\Heimdall\\Rules\\' . $ruleName . 'Rule';
                 if (class_exists($class)) {
                     $result = $class::validate($field, $value, $params, $data);
                     if ($result !== true) {

@@ -2,7 +2,7 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class Max
+class MaxRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {
