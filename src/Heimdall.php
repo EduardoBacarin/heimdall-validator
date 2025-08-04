@@ -9,8 +9,16 @@ class Heimdall
         $errors = [];
 
         foreach ($rules as $field => $ruleString) {
-            $value = self::getDataValue($data, $field);
             $ruleList = explode('|', $ruleString);
+            $hasRequired = self::hasRequiredRule($ruleList);
+            $hasSometimes = in_array('sometimes', $ruleList);
+            $hasNullable = in_array('nullable', $ruleList);
+            $fieldExists = self::dataKeyExists($data, $field);
+            $value = self::getDataValue($data, $field);
+
+            if (!$fieldExists && $hasSometimes && !$hasRequired) {
+                continue;
+            }
 
             foreach ($ruleList as $rule) {
                 $params = null;
@@ -19,8 +27,18 @@ class Heimdall
                     [$rule, $params] = explode(':', $rule, 2);
                 }
 
+                if ($rule === 'sometimes' || $rule === 'nullable') {
+                    continue; // não valida diretamente
+                }
+
+                // Se valor for nulo e existir nullable, pula as outras regras
+                if ($hasNullable && ($value === null || $value === '')) {
+                    break; // não valida mais regras para esse campo
+                }
+
                 $ruleName = self::ruleToClass($rule);
                 $class = __NAMESPACE__ . '\\Heimdall\\Rules\\' . $ruleName . 'Rule';
+
                 if (class_exists($class)) {
                     $result = $class::validate($field, $value, $params, $data);
                     if ($result !== true) {
@@ -33,6 +51,16 @@ class Heimdall
         }
 
         return ['valid' => empty($errors), 'errors' => $errors];
+    }
+
+    private static function hasRequiredRule(array $rules): bool
+    {
+        foreach ($rules as $rule) {
+            if (str_starts_with($rule, 'required')) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static function ruleToClass(string $rule): string
@@ -54,5 +82,18 @@ class Heimdall
             }
         }
         return $data;
+    }
+
+    private static function dataKeyExists(array $data, string $key): bool
+    {
+        $keys = explode('.', $key);
+        foreach ($keys as $k) {
+            if (is_array($data) && array_key_exists($k, $data)) {
+                $data = $data[$k];
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 }
