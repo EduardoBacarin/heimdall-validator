@@ -1,8 +1,10 @@
 # HEIMDALL VALIDATOR #
 
-Avoid unwanted data in your project with Heimdall Validator.<br>
-Heimdall Validator was inspired by Laravel and Symfony validators. It receives an associative array with data and another associative array with the desired validation rules.<br>
-This package will not throw exceptions or block any request; instead, it returns an associative array containing a boolean indicating whether the data is valid, along with another associative array containing error messages for any invalid data, you will see examples below.<br>
+Avoid unwanted data in your project with Heimdall Validator.
+
+Heimdall Validator was inspired by Laravel and Symfony validators. It receives an associative array with data and another associative array with the desired validation rules.
+
+This package will not throw exceptions or block any request; instead, it returns an associative array containing a boolean indicating whether the data is valid, along with another associative array containing error messages for any invalid data, you will see examples below.
 
 ### Index
 
