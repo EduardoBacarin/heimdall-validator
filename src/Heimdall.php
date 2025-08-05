@@ -55,7 +55,7 @@ class Heimdall
     private static function hasRequiredRule(array $rules): bool
     {
         foreach ($rules as $rule) {
-            if (str_starts_with($rule, 'required')) {
+            if (stripos($rule, 'required')) {
                 return true;
             }
         }
