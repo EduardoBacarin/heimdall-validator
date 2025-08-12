@@ -795,3 +795,48 @@ function test_regex_invalid_pattern()
               isset($return['errors']) && count($return['errors']) > 0;
     printTestResult('Test Regex Invalid Pattern', $passed);
 }
+
+function test_uuid_success()
+{
+    $validUUIDs = [
+        'af883b30-77a7-11f0-802d-f5d643144657', // v1
+        '6ba7b811-9dad-21d1-80b4-00c04fd430c8', // v2
+        '6ba7b812-9dad-31d1-80b4-00c04fd430c8', // v3
+        '4964d188-af92-4cd7-976f-ab40fae9feed', // v4
+        '6ba7b815-9dad-51d1-80b4-00c04fd430c8', // v5
+    ];
+
+    foreach ($validUUIDs as $uuid) {
+        $data = ['id' => $uuid];
+        $rules = ['id' => 'uuid'];
+        $return = Heimdall::validate($rules, $data);
+        printTestResult("Test UUID Success with value {$uuid}", $return['valid']);
+    }
+}
+
+function test_uuid_version4_success()
+{
+    $uuid = '6ba7b814-9dad-41d1-80b4-00c04fd430c8'; // v4 UUID
+    $data = ['id' => $uuid];
+    $rules = ['id' => 'uuid:4'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test UUID v4 Success", $return['valid']);
+}
+
+function test_uuid_version4_fail()
+{
+    $uuid = '6ba7b812-9dad-31d1-80b4-00c04fd430c8'; // v3 UUID
+    $data = ['id' => $uuid];
+    $rules = ['id' => 'uuid:4'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test UUID v4 Fail with v3 UUID", !$return['valid']);
+}
+
+function test_uuid_invalid()
+{
+    $uuid = 'not-a-uuid';
+    $data = ['id' => $uuid];
+    $rules = ['id' => 'uuid'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test UUID Invalid", !$return['valid']);
+}
