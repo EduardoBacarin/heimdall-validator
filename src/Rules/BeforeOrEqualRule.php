@@ -2,17 +2,17 @@
 
 namespace Bacarin\Heimdall\Rules;
 
-class BeforeRule
+class BeforeOrEqualRule
 {
     public static function validate($field, $value, $param = null, $data = [])
     {
         if ($value === null || $value === '') {
-            return "The field '$field' must be a valid date before '$param'.";
+            return "The field '$field' must be a valid date before or equal to '$param'.";
         }
 
         $valueDate = self::parseDateFlexible($value);
         if ($valueDate === false) {
-            return "The field '$field' must be a valid date before '$param'.";
+            return "The field '$field' must be a valid date before or equal to '$param'.";
         }
 
         $compareDate = self::parseSpecialDate($param);
@@ -23,8 +23,8 @@ class BeforeRule
             }
         }
 
-        if ($valueDate >= $compareDate) {
-            return "The field '$field' must be a date before '$param'.";
+        if ($valueDate > $compareDate) {
+            return "The field '$field' must be a date before or equal to '$param'.";
         }
 
         return true;
@@ -36,7 +36,7 @@ class BeforeRule
             return false;
         }
 
-        $today = new \DateTime('today'); // 00:00:00 do dia atual
+        $today = new \DateTime('today'); // hoje às 00:00:00
         switch (strtolower($param)) {
             case 'today':
                 return $today;
@@ -59,6 +59,7 @@ class BeforeRule
             return false;
         }
 
+        // tenta formatos com hora primeiro
         $formats = [
             'Y-m-d H:i:s',
             'Y-m-d',
@@ -74,6 +75,7 @@ class BeforeRule
             }
         }
 
+        // fallback
         try {
             return new \DateTime($value);
         } catch (\Exception $e) {
