@@ -760,3 +760,38 @@ function test_declined_if_success_when_declined()
     $return = Heimdall::validate($rules, $data);
     printTestResult('Test DeclinedIf Success when status is active and agreement declined', $return['valid']);
 }
+
+
+function test_regex_success()
+{
+    $data = ['username' => 'user123'];
+    $rules = ['username' => 'regex:^[a-z0-9]+$'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Regex Success with valid username', $return['valid']);
+}
+
+function test_regex_fail()
+{
+    $data = ['username' => 'User_123'];
+    $rules = ['username' => 'regex:^[a-z0-9]+$'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Regex Fail with invalid username', !$return['valid']);
+}
+
+function test_regex_with_delimiters_success()
+{
+    $data = ['username' => 'user123'];
+    $rules = ['username' => 'regex:/^[a-z0-9]+$/i'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Regex with delimiters Success', $return['valid']);
+}
+
+function test_regex_invalid_pattern()
+{
+    $data = ['username' => 'user123'];
+    $rules = ['username' => 'regex:/[a-z0-9+/'];
+    $return = Heimdall::validate($rules, $data);
+    $passed = isset($return['valid']) && $return['valid'] === false &&
+              isset($return['errors']) && count($return['errors']) > 0;
+    printTestResult('Test Regex Invalid Pattern', $passed);
+}
