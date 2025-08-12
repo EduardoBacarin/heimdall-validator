@@ -816,7 +816,7 @@ function test_uuid_success()
 
 function test_uuid_version4_success()
 {
-    $uuid = '6ba7b814-9dad-41d1-80b4-00c04fd430c8'; // v4 UUID
+    $uuid = '6ba7b814-9dad-41d1-80b4-00c04fd430c8';
     $data = ['id' => $uuid];
     $rules = ['id' => 'uuid:4'];
     $return = Heimdall::validate($rules, $data);
@@ -825,7 +825,7 @@ function test_uuid_version4_success()
 
 function test_uuid_version4_fail()
 {
-    $uuid = '6ba7b812-9dad-31d1-80b4-00c04fd430c8'; // v3 UUID
+    $uuid = '6ba7b812-9dad-31d1-80b4-00c04fd430c8';
     $data = ['id' => $uuid];
     $rules = ['id' => 'uuid:4'];
     $return = Heimdall::validate($rules, $data);
