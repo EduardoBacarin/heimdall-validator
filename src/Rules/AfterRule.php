@@ -60,11 +60,11 @@ class AfterRule
         }
 
         $formats = [
-            'Y-m-d',
             'Y-m-d H:i:s',
+            'Y-m-d',
             \DateTime::ATOM,
-            'd/m/Y',
             'd/m/Y H:i:s',
+            'd/m/Y',
         ];
 
         foreach ($formats as $format) {

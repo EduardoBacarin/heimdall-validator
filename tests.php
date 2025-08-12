@@ -487,7 +487,7 @@ function test_before_datetime_fail()
 
 function test_before_today_datetime_success()
 {
-    $today = (new DateTime('today'))->format('Y-m-d H:i:s');
+    $today = (new DateTime('yesterday'))->format('Y-m-d H:i:s');
     $data = ['date' => $today];
     $rules = ['date' => 'before:today'];
     $return = Heimdall::validate($rules, $data);
@@ -565,6 +565,40 @@ function test_after_fail_fixed_date()
     $rules = ['end_date' => 'after:2025-07-10'];
     $return = Heimdall::validate($rules, $data);
     printTestResult('Test After Fail Fixed Date', !$return['valid']);
+}
+
+function test_after_datetime_success()
+{
+    $data = ['start_datetime' => '2025-08-12 15:00:00'];
+    $rules = ['start_datetime' => 'after:2025-08-12 12:00:00'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test After DateTime Success', $return['valid']);
+}
+
+function test_after_datetime_fail()
+{
+    $data = ['start_datetime' => '2025-08-12 10:00:00'];
+    $rules = ['start_datetime' => 'after:2025-08-12 12:00:00'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test After DateTime Fail', !$return['valid']);
+}
+
+function test_after_today_datetime_success()
+{
+    $tomorrow = (new DateTime('tomorrow'))->format('Y-m-d H:i:s');
+    $data = ['date' => $tomorrow];
+    $rules = ['date' => 'after:today'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test After Today DateTime Success', $return['valid']);
+}
+
+function test_after_today_datetime_fail()
+{
+    $today = (new DateTime('today'))->format('Y-m-d H:i:s');
+    $data = ['date' => $today];
+    $rules = ['date' => 'after:today'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test After Today DateTime Fail', !$return['valid']);
 }
 
 function test_lte_success_fixed_value() {
@@ -961,3 +995,5 @@ function test_before_or_equal_tomorrow_fail()
     $return = Heimdall::validate($rules, $data);
     printTestResult('Test BeforeOrEqual Tomorrow Fail', !$return['valid']);
 }
+
+
