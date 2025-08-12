@@ -36,7 +36,7 @@ class BeforeOrEqualRule
             return false;
         }
 
-        $today = new \DateTime('today'); // hoje às 00:00:00
+        $today = new \DateTime('today');
         switch (strtolower($param)) {
             case 'today':
                 return $today;
@@ -59,7 +59,6 @@ class BeforeOrEqualRule
             return false;
         }
 
-        // tenta formatos com hora primeiro
         $formats = [
             'Y-m-d H:i:s',
             'Y-m-d',
@@ -75,7 +74,6 @@ class BeforeOrEqualRule
             }
         }
 
-        // fallback
         try {
             return new \DateTime($value);
         } catch (\Exception $e) {

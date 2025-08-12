@@ -36,7 +36,7 @@ class BeforeRule
             return false;
         }
 
-        $today = new \DateTime('today'); // 00:00:00 do dia atual
+        $today = new \DateTime('today');
         switch (strtolower($param)) {
             case 'today':
                 return $today;
