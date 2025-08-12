@@ -996,4 +996,72 @@ function test_before_or_equal_tomorrow_fail()
     printTestResult('Test BeforeOrEqual Tomorrow Fail', !$return['valid']);
 }
 
+function test_after_or_equal_datetime_success()
+{
+    $data = ['start_datetime' => '2025-08-12 12:00:00'];
+    $rules = ['start_datetime' => 'after_or_equal:2025-08-12 12:00:00'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual DateTime Success', $return['valid']);
+}
 
+function test_after_or_equal_datetime_fail()
+{
+    $data = ['start_datetime' => '2025-08-12 10:00:00'];
+    $rules = ['start_datetime' => 'after_or_equal:2025-08-12 12:00:00'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual DateTime Fail', !$return['valid']);
+}
+
+function test_after_or_equal_today_datetime_success()
+{
+    $today = (new DateTime('today'))->format('Y-m-d H:i:s');
+    $data = ['date' => $today];
+    $rules = ['date' => 'after_or_equal:today'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual Today DateTime Success', $return['valid']);
+}
+
+function test_after_or_equal_today_datetime_fail()
+{
+    $yesterday = (new DateTime('yesterday'))->format('Y-m-d H:i:s');
+    $data = ['date' => $yesterday];
+    $rules = ['date' => 'after_or_equal:today'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual Today DateTime Fail', !$return['valid']);
+}
+
+function test_after_or_equal_tomorrow_datetime_success()
+{
+    $tomorrow = (new DateTime('tomorrow'))->format('Y-m-d H:i:s');
+    $data = ['date' => $tomorrow];
+    $rules = ['date' => 'after_or_equal:tomorrow'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual Tomorrow DateTime Success', $return['valid']);
+}
+
+function test_after_or_equal_tomorrow_datetime_fail()
+{
+    $today = (new DateTime('today'))->format('Y-m-d H:i:s');
+    $data = ['date' => $today];
+    $rules = ['date' => 'after_or_equal:tomorrow'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual Tomorrow DateTime Fail', !$return['valid']);
+}
+
+function test_after_or_equal_yesterday_datetime_success()
+{
+    $yesterday = (new DateTime('yesterday'))->format('Y-m-d H:i:s');
+    $data = ['date' => $yesterday];
+    $rules = ['date' => 'after_or_equal:yesterday'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual Yesterday DateTime Success', $return['valid']);
+}
+
+function test_after_or_equal_yesterday_datetime_fail()
+{
+    $twoDaysAgo = (new DateTime('2 days ago'))->format('Y-m-d H:i:s');
+    $data = ['date' => $twoDaysAgo];
+    $rules = ['date' => 'after_or_equal:yesterday'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AfterOrEqual Yesterday DateTime Fail', !$return['valid']);
+}
