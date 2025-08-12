@@ -643,3 +643,120 @@ function test_gt_fail_value() {
     $return = Heimdall::validate($rules, $data);
     printTestResult('Test GT Fail Value', !$return['valid']);
 }
+
+function test_accepted_success()
+{
+    $values = ['yes', 'on', '1', 1, true, 'true'];
+    foreach ($values as $val) {
+        $data = ['field' => $val];
+        $rules = ['field' => 'accepted'];
+        $return = Heimdall::validate($rules, $data);
+        printTestResult("Test Accepted Success with value '{$val}'", $return['valid']);
+    }
+}
+
+function test_accepted_fail()
+{
+    $data = ['field' => 'no'];
+    $rules = ['field' => 'accepted'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Accepted Fail with value \'no\'', !$return['valid']);
+}
+
+function test_accepted_if_success()
+{
+    $data = [
+        'status' => 'active',
+        'agreement' => 'yes',
+    ];
+    $rules = [
+        'agreement' => 'accepted_if:status,active',
+    ];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AcceptedIf Success when status is active', $return['valid']);
+}
+
+function test_accepted_if_skip()
+{
+    $data = [
+        'status' => 'inactive',
+        'agreement' => 'no',
+    ];
+    $rules = [
+        'agreement' => 'accepted_if:status,active',
+    ];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AcceptedIf Skip when status is inactive', $return['valid']);
+}
+
+function test_accepted_if_fail()
+{
+    $data = [
+        'status' => 'active',
+        'agreement' => 'no',
+    ];
+    $rules = [
+        'agreement' => 'accepted_if:status,active',
+    ];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test AcceptedIf Fail when status is active', !$return['valid']);
+}
+
+
+function test_declined_success()
+{
+    $values = ['no', 'off', 0, '0', false, 'false'];
+    foreach ($values as $val) {
+        $data = ['field' => $val];
+        $rules = ['field' => 'declined'];
+        $return = Heimdall::validate($rules, $data);
+        printTestResult("Test Declined Success with value '{$val}'", $return['valid']);
+    }
+}
+
+function test_declined_fail()
+{
+    $data = ['field' => 'yes'];
+    $rules = ['field' => 'declined'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Declined Fail with value \'yes\'', !$return['valid']);
+}
+
+function test_declined_if_success()
+{
+    $data = [
+        'status' => 'inactive',
+        'agreement' => 'no',
+    ];
+    $rules = [
+        'agreement' => 'declined_if:status,active',
+    ];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test DeclinedIf Skip when status is inactive', $return['valid']);
+}
+
+function test_declined_if_fail()
+{
+    $data = [
+        'status' => 'active',
+        'agreement' => 'yes',
+    ];
+    $rules = [
+        'agreement' => 'declined_if:status,active',
+    ];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test DeclinedIf Fail when status is active', !$return['valid']);
+}
+
+function test_declined_if_success_when_declined()
+{
+    $data = [
+        'status' => 'active',
+        'agreement' => 'no',
+    ];
+    $rules = [
+        'agreement' => 'declined_if:status,active',
+    ];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test DeclinedIf Success when status is active and agreement declined', $return['valid']);
+}
