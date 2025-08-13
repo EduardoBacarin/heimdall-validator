@@ -43,7 +43,7 @@ function test_required_success()
     $data = ['name' => 'John Doe'];
     $rules = ['name' => 'required'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Required Success', $return['valid']);
+    printTestResult('Test Required Success', $return->passes());
 }
 
 function test_required_failed()
@@ -51,7 +51,7 @@ function test_required_failed()
     $data = ['name' => ''];
     $rules = ['name' => 'required'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Required Fail', !$return['valid']);
+    printTestResult('Test Required Fail', !$return->passes());
 }
 
 function test_email_success()
@@ -59,7 +59,7 @@ function test_email_success()
     $data = ['email' => 'johndoe@email.com'];
     $rules = ['email' => 'email'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Email Success', $return['valid']);
+    printTestResult('Test Email Success', $return->passes());
 }
 
 function test_email_failed()
@@ -67,7 +67,7 @@ function test_email_failed()
     $data = ['name' => 'johndoe_not_email'];
     $rules = ['name' => 'email'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Email Fail', !$return['valid']);
+    printTestResult('Test Email Fail', !$return->passes());
 }
 
 function test_boolean_success()
@@ -75,14 +75,14 @@ function test_boolean_success()
     $data = ['accept' => true];
     $rules = ['accept' => 'boolean'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Boolean Success', $return['valid']);
+    printTestResult('Test Boolean Success', $return->passes());
 }
 function test_boolean_failed()
 {
     $data = ['accept' => 'accepted'];
     $rules = ['accept' => 'boolean'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Boolean Fail', !$return['valid']);
+    printTestResult('Test Boolean Fail', !$return->passes());
 }
 
 function test_required_with_success()
@@ -95,7 +95,7 @@ function test_required_with_success()
         'email' => 'required_with:name',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test RequiredWith Success', $return['valid']);
+    printTestResult('Test RequiredWith Success', $return->passes());
 }
 
 function test_required_with_failed()
@@ -108,7 +108,7 @@ function test_required_with_failed()
         'email' => 'required_with:name',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test RequiredWith Fail', !$return['valid']);
+    printTestResult('Test RequiredWith Fail', !$return->passes());
 }
 
 function test_required_if_success()
@@ -121,7 +121,7 @@ function test_required_if_success()
         'email' => 'required_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test RequiredIf Success', $return['valid']);
+    printTestResult('Test RequiredIf Success', $return->passes());
 }
 
 function test_required_if_failed()
@@ -134,7 +134,7 @@ function test_required_if_failed()
         'email' => 'required_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test RequiredIf Fail', !$return['valid']);
+    printTestResult('Test RequiredIf Fail', !$return->passes());
 }
 
 function test_required_if_in_success()
@@ -147,7 +147,7 @@ function test_required_if_in_success()
         'email' => 'required_if_in:status,active,pending',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test RequiredIfIn Success', $return['valid']);
+    printTestResult('Test RequiredIfIn Success', $return->passes());
 }
 
 function test_required_if_in_failed()
@@ -160,7 +160,7 @@ function test_required_if_in_failed()
         'email' => 'required_if_in:status,active,pending',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test RequiredIfIn Fail', !$return['valid']);
+    printTestResult('Test RequiredIfIn Fail', !$return->passes());
 }
 function test_prohibited_with_success()
 {
@@ -172,7 +172,7 @@ function test_prohibited_with_success()
         'document' => 'prohibited_with:type',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test ProhibitedWith Success', $return['valid']);
+    printTestResult('Test ProhibitedWith Success', $return->passes());
 }
 
 function test_prohibited_with_failed()
@@ -185,7 +185,7 @@ function test_prohibited_with_failed()
         'document' => 'prohibited_with:type',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test ProhibitedWith Fail', !$return['valid']);
+    printTestResult('Test ProhibitedWith Fail', !$return->passes());
 }
 
 function test_in_success()
@@ -193,7 +193,7 @@ function test_in_success()
     $data = ['status' => 'active'];
     $rules = ['status' => 'in:active,inactive,pending'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test In Success', $return['valid']);
+    printTestResult('Test In Success', $return->passes());
 }
 
 function test_in_failed()
@@ -201,7 +201,7 @@ function test_in_failed()
     $data = ['status' => 'deleted'];
     $rules = ['status' => 'in:active,inactive,pending'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test In Fail', !$return['valid']);
+    printTestResult('Test In Fail', !$return->passes());
 }
 
 function test_integer_success()
@@ -209,7 +209,7 @@ function test_integer_success()
     $data = ['age' => 25];
     $rules = ['age' => 'integer'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Integer Success', $return['valid']);
+    printTestResult('Test Integer Success', $return->passes());
 }
 
 function test_integer_failed()
@@ -217,7 +217,7 @@ function test_integer_failed()
     $data = ['age' => 'twenty'];
     $rules = ['age' => 'integer'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Integer Fail', !$return['valid']);
+    printTestResult('Test Integer Fail', !$return->passes());
 }
 
 function test_min_success()
@@ -225,7 +225,7 @@ function test_min_success()
     $data = ['quantity' => 5];
     $rules = ['quantity' => 'min:3'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Min Success', $return['valid']);
+    printTestResult('Test Min Success', $return->passes());
 }
 
 function test_min_failed()
@@ -233,7 +233,7 @@ function test_min_failed()
     $data = ['quantity' => 2];
     $rules = ['quantity' => 'min:3'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Min Fail', !$return['valid']);
+    printTestResult('Test Min Fail', !$return->passes());
 }
 
 function test_max_success()
@@ -241,7 +241,7 @@ function test_max_success()
     $data = ['quantity' => 5];
     $rules = ['quantity' => 'max:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Max Success', $return['valid']);
+    printTestResult('Test Max Success', $return->passes());
 }
 
 function test_max_failed()
@@ -249,14 +249,14 @@ function test_max_failed()
     $data = ['quantity' => 15];
     $rules = ['quantity' => 'max:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Max Fail', !$return['valid']);
+    printTestResult('Test Max Fail', !$return->passes());
 }
 function test_string_success()
 {
     $data = ['name' => 'Eduardo'];
     $rules = ['name' => 'string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test String Success', $return['valid']);
+    printTestResult('Test String Success', $return->passes());
 }
 
 function test_string_failed()
@@ -264,7 +264,7 @@ function test_string_failed()
     $data = ['name' => 12345];
     $rules = ['name' => 'string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test String Fail', !$return['valid']);
+    printTestResult('Test String Fail', !$return->passes());
 }
 
 function test_array_success()
@@ -272,7 +272,7 @@ function test_array_success()
     $data = ['tags' => ['php', 'laravel']];
     $rules = ['tags' => 'array'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Array Success', $return['valid']);
+    printTestResult('Test Array Success', $return->passes());
 }
 
 function test_array_failed()
@@ -280,7 +280,7 @@ function test_array_failed()
     $data = ['tags' => 'php'];
     $rules = ['tags' => 'array'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Array Fail', !$return['valid']);
+    printTestResult('Test Array Fail', !$return->passes());
 }
 
 function test_date_success()
@@ -288,7 +288,7 @@ function test_date_success()
     $data = ['birthdate' => '2023-05-20'];
     $rules = ['birthdate' => 'date'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Date Success', $return['valid']);
+    printTestResult('Test Date Success', $return->passes());
 }
 
 function test_date_with_format_success()
@@ -296,7 +296,7 @@ function test_date_with_format_success()
     $data = ['birthdate' => '20/05/2023'];
     $rules = ['birthdate' => 'date:d/m/Y'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Date With Format Success', $return['valid']);
+    printTestResult('Test Date With Format Success', $return->passes());
 }
 
 function test_date_failed()
@@ -304,7 +304,7 @@ function test_date_failed()
     $data = ['birthdate' => 'not-a-date'];
     $rules = ['birthdate' => 'date'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Date Fail', !$return['valid']);
+    printTestResult('Test Date Fail', !$return->passes());
 }
 
 function test_date_with_format_failed()
@@ -312,7 +312,7 @@ function test_date_with_format_failed()
     $data = ['birthdate' => '2023/05/20'];
     $rules = ['birthdate' => 'date:d/m/Y'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Date With Format Fail', !$return['valid']);
+    printTestResult('Test Date With Format Fail', !$return->passes());
 }
 
 function test_sometimes_success_not_sent()
@@ -320,7 +320,7 @@ function test_sometimes_success_not_sent()
     $data = [];
     $rules = ['nickname' => 'sometimes|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Sometimes Not Sent', $return['valid']);
+    printTestResult('Test Sometimes Not Sent', $return->passes());
 }
 
 function test_sometimes_success_sent_and_valid()
@@ -328,14 +328,14 @@ function test_sometimes_success_sent_and_valid()
     $data = ['nickname' => 'Dudu'];
     $rules = ['nickname' => 'sometimes|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Sometimes Valid Sent', $return['valid']);
+    printTestResult('Test Sometimes Valid Sent', $return->passes());
 }
 function test_sometimes_fail_invalid_sent()
 {
     $data = ['nickname' => 123];
     $rules = ['nickname' => 'sometimes|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Sometimes Invalid Sent', !$return['valid']);
+    printTestResult('Test Sometimes Invalid Sent', !$return->passes());
 }
 
 function test_missing_field_without_sometimes_or_required()
@@ -343,7 +343,7 @@ function test_missing_field_without_sometimes_or_required()
     $data = [];
     $rules = ['nickname' => 'string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Missing Field Without Sometimes Or Required', !$return['valid']);
+    printTestResult('Test Missing Field Without Sometimes Or Required', $return->passes());
 }
 
 function test_nullable_success_null()
@@ -351,7 +351,7 @@ function test_nullable_success_null()
     $data = ['middle_name' => null];
     $rules = ['middle_name' => 'nullable|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Nullable Success (null)', $return['valid']);
+    printTestResult('Test Nullable Success (null)', $return->passes());
 }
 
 function test_nullable_success_empty()
@@ -359,7 +359,7 @@ function test_nullable_success_empty()
     $data = ['middle_name' => ''];
     $rules = ['middle_name' => 'nullable|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Nullable Success (empty string)', $return['valid']);
+    printTestResult('Test Nullable Success (empty string)', $return->passes());
 }
 
 function test_nullable_success_value()
@@ -367,7 +367,7 @@ function test_nullable_success_value()
     $data = ['middle_name' => 'Eduardo'];
     $rules = ['middle_name' => 'nullable|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Nullable Success (valid string)', $return['valid']);
+    printTestResult('Test Nullable Success (valid string)', $return->passes());
 }
 
 function test_nullable_fail_invalid()
@@ -375,7 +375,7 @@ function test_nullable_fail_invalid()
     $data = ['middle_name' => ['array']];
     $rules = ['middle_name' => 'nullable|string'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Nullable Fail (invalid type)', !$return['valid']);
+    printTestResult('Test Nullable Fail (invalid type)', !$return->passes());
 }
 
 function test_datetime_success()
@@ -383,7 +383,7 @@ function test_datetime_success()
     $data = ['created_at' => '2025-08-04 10:30:00'];
     $rules = ['created_at' => 'datetime'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Datetime Success', $return['valid']);
+    printTestResult('Test Datetime Success', $return->passes());
 }
 
 function test_datetime_success_format()
@@ -391,7 +391,7 @@ function test_datetime_success_format()
     $data = ['created_at' => '04/08/2025 10:30'];
     $rules = ['created_at' => 'datetime:d/m/Y H:i'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Datetime Success with Format', $return['valid']);
+    printTestResult('Test Datetime Success with Format', $return->passes());
 }
 
 function test_datetime_fail_invalid()
@@ -399,7 +399,7 @@ function test_datetime_fail_invalid()
     $data = ['created_at' => 'not-a-datetime'];
     $rules = ['created_at' => 'datetime'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Datetime Fail', !$return['valid']);
+    printTestResult('Test Datetime Fail', !$return->passes());
 }
 
 function test_datetime_fail_null()
@@ -407,7 +407,7 @@ function test_datetime_fail_null()
     $data = ['created_at' => null];
     $rules = ['created_at' => 'datetime'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Datetime Fail Null', !$return['valid']);
+    printTestResult('Test Datetime Fail Null', !$return->passes());
 }
 
 function test_before_success_today()
@@ -415,7 +415,7 @@ function test_before_success_today()
     $data = ['start_date' => date('Y-m-d', strtotime('-1 day'))];
     $rules = ['start_date' => 'before:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Success Today', $return['valid']);
+    printTestResult('Test Before Success Today', $return->passes());
 }
 
 function test_before_fail_today()
@@ -423,7 +423,7 @@ function test_before_fail_today()
     $data = ['start_date' => date('Y-m-d', strtotime('+1 day'))];
     $rules = ['start_date' => 'before:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Fail Today', !$return['valid']);
+    printTestResult('Test Before Fail Today', !$return->passes());
 }
 
 function test_before_success_yesterday()
@@ -431,7 +431,7 @@ function test_before_success_yesterday()
     $data = ['start_date' => date('Y-m-d', strtotime('-2 days'))];
     $rules = ['start_date' => 'before:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Success Yesterday', $return['valid']);
+    printTestResult('Test Before Success Yesterday', $return->passes());
 }
 
 function test_before_fail_yesterday()
@@ -439,7 +439,7 @@ function test_before_fail_yesterday()
     $data = ['start_date' => date('Y-m-d', strtotime('now'))];
     $rules = ['start_date' => 'before:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Fail Yesterday', !$return['valid']);
+    printTestResult('Test Before Fail Yesterday', !$return->passes());
 }
 
 function test_before_success_tomorrow()
@@ -447,7 +447,7 @@ function test_before_success_tomorrow()
     $data = ['start_date' => date('Y-m-d', strtotime('now'))];
     $rules = ['start_date' => 'before:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Success Tomorrow', $return['valid']);
+    printTestResult('Test Before Success Tomorrow', $return->passes());
 }
 
 function test_before_fail_tomorrow()
@@ -455,7 +455,7 @@ function test_before_fail_tomorrow()
     $data = ['start_date' => date('Y-m-d', strtotime('+2 days'))];
     $rules = ['start_date' => 'before:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Fail Tomorrow', !$return['valid']);
+    printTestResult('Test Before Fail Tomorrow', !$return->passes());
 }
 
 function test_before_success_fixed_date()
@@ -463,7 +463,7 @@ function test_before_success_fixed_date()
     $data = ['start_date' => '2025-07-01'];
     $rules = ['start_date' => 'before:2025-07-10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Success Fixed Date', $return['valid']);
+    printTestResult('Test Before Success Fixed Date', $return->passes());
 }
 
 function test_before_fail_fixed_date()
@@ -471,7 +471,7 @@ function test_before_fail_fixed_date()
     $data = ['start_date' => '2025-07-15'];
     $rules = ['start_date' => 'before:2025-07-10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Fail Fixed Date', !$return['valid']);
+    printTestResult('Test Before Fail Fixed Date', !$return->passes());
 }
 
 function test_before_datetime_success()
@@ -479,7 +479,7 @@ function test_before_datetime_success()
     $data = ['start_datetime' => '2025-08-12 10:30:00'];
     $rules = ['start_datetime' => 'before:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before DateTime Success', $return['valid']);
+    printTestResult('Test Before DateTime Success', $return->passes());
 }
 
 function test_before_datetime_fail()
@@ -487,7 +487,7 @@ function test_before_datetime_fail()
     $data = ['start_datetime' => '2025-08-12 14:00:00'];
     $rules = ['start_datetime' => 'before:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before DateTime Fail', !$return['valid']);
+    printTestResult('Test Before DateTime Fail', !$return->passes());
 }
 
 function test_before_today_datetime_success()
@@ -496,7 +496,7 @@ function test_before_today_datetime_success()
     $data = ['date' => $today];
     $rules = ['date' => 'before:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Today DateTime Success', $return['valid']);
+    printTestResult('Test Before Today DateTime Success', $return->passes());
 }
 
 function test_before_today_datetime_fail()
@@ -505,7 +505,7 @@ function test_before_today_datetime_fail()
     $data = ['date' => $tomorrow];
     $rules = ['date' => 'before:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Before Today DateTime Fail', !$return['valid']);
+    printTestResult('Test Before Today DateTime Fail', !$return->passes());
 }
 
 function test_after_success_today()
@@ -513,7 +513,7 @@ function test_after_success_today()
     $data = ['end_date' => date('Y-m-d', strtotime('+1 day'))];
     $rules = ['end_date' => 'after:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Success Today', $return['valid']);
+    printTestResult('Test After Success Today', $return->passes());
 }
 
 function test_after_fail_today()
@@ -521,7 +521,7 @@ function test_after_fail_today()
     $data = ['end_date' => date('Y-m-d', strtotime('-1 day'))];
     $rules = ['end_date' => 'after:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Fail Today', !$return['valid']);
+    printTestResult('Test After Fail Today', !$return->passes());
 }
 
 function test_after_success_yesterday()
@@ -529,7 +529,7 @@ function test_after_success_yesterday()
     $data = ['end_date' => date('Y-m-d', strtotime('now'))];
     $rules = ['end_date' => 'after:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Success Yesterday', $return['valid']);
+    printTestResult('Test After Success Yesterday', $return->passes());
 }
 
 function test_after_fail_yesterday()
@@ -537,7 +537,7 @@ function test_after_fail_yesterday()
     $data = ['end_date' => date('Y-m-d', strtotime('-2 days'))];
     $rules = ['end_date' => 'after:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Fail Yesterday', !$return['valid']);
+    printTestResult('Test After Fail Yesterday', !$return->passes());
 }
 
 function test_after_success_tomorrow()
@@ -545,7 +545,7 @@ function test_after_success_tomorrow()
     $data = ['end_date' => date('Y-m-d', strtotime('+2 days'))];
     $rules = ['end_date' => 'after:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Success Tomorrow', $return['valid']);
+    printTestResult('Test After Success Tomorrow', $return->passes());
 }
 
 function test_after_fail_tomorrow()
@@ -553,7 +553,7 @@ function test_after_fail_tomorrow()
     $data = ['end_date' => date('Y-m-d', strtotime('now'))];
     $rules = ['end_date' => 'after:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Fail Tomorrow', !$return['valid']);
+    printTestResult('Test After Fail Tomorrow', !$return->passes());
 }
 
 function test_after_success_fixed_date()
@@ -561,7 +561,7 @@ function test_after_success_fixed_date()
     $data = ['end_date' => '2025-07-15'];
     $rules = ['end_date' => 'after:2025-07-10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Success Fixed Date', $return['valid']);
+    printTestResult('Test After Success Fixed Date', $return->passes());
 }
 
 function test_after_fail_fixed_date()
@@ -569,7 +569,7 @@ function test_after_fail_fixed_date()
     $data = ['end_date' => '2025-07-01'];
     $rules = ['end_date' => 'after:2025-07-10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Fail Fixed Date', !$return['valid']);
+    printTestResult('Test After Fail Fixed Date', !$return->passes());
 }
 
 function test_after_datetime_success()
@@ -577,7 +577,7 @@ function test_after_datetime_success()
     $data = ['start_datetime' => '2025-08-12 15:00:00'];
     $rules = ['start_datetime' => 'after:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After DateTime Success', $return['valid']);
+    printTestResult('Test After DateTime Success', $return->passes());
 }
 
 function test_after_datetime_fail()
@@ -585,7 +585,7 @@ function test_after_datetime_fail()
     $data = ['start_datetime' => '2025-08-12 10:00:00'];
     $rules = ['start_datetime' => 'after:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After DateTime Fail', !$return['valid']);
+    printTestResult('Test After DateTime Fail', !$return->passes());
 }
 
 function test_after_today_datetime_success()
@@ -594,7 +594,7 @@ function test_after_today_datetime_success()
     $data = ['date' => $tomorrow];
     $rules = ['date' => 'after:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Today DateTime Success', $return['valid']);
+    printTestResult('Test After Today DateTime Success', $return->passes());
 }
 
 function test_after_today_datetime_fail()
@@ -603,119 +603,119 @@ function test_after_today_datetime_fail()
     $data = ['date' => $today];
     $rules = ['date' => 'after:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test After Today DateTime Fail', !$return['valid']);
+    printTestResult('Test After Today DateTime Fail', !$return->passes());
 }
 
 function test_lte_success_fixed_value() {
     $data = ['amount' => 8];
     $rules = ['amount' => 'lte:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LTE Success Fixed', $return['valid']);
+    printTestResult('Test LTE Success Fixed', $return->passes());
 }
 
 function test_lte_fail_fixed_value() {
     $data = ['amount' => 12];
     $rules = ['amount' => 'lte:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LTE Fail Fixed', !$return['valid']);
+    printTestResult('Test LTE Fail Fixed', !$return->passes());
 }
 
 function test_lte_success_field() {
     $data = ['amount' => 8, 'max' => 10];
     $rules = ['amount' => 'lte:max'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LTE Success Field', $return['valid']);
+    printTestResult('Test LTE Success Field', $return->passes());
 }
 
 function test_lte_fail_field() {
     $data = ['amount' => 12, 'max' => 10];
     $rules = ['amount' => 'lte:max'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LTE Fail Field', !$return['valid']);
+    printTestResult('Test LTE Fail Field', !$return->passes());
 }
 
 function test_lt_success_field() {
     $data = ['value' => 5, 'max' => 10];
     $rules = ['value' => 'lt:max'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LT Success Field', $return['valid']);
+    printTestResult('Test LT Success Field', $return->passes());
 }
 
 function test_lt_fail_field() {
     $data = ['value' => 15, 'max' => 10];
     $rules = ['value' => 'lt:max'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LT Fail Field', !$return['valid']);
+    printTestResult('Test LT Fail Field', !$return->passes());
 }
 
 function test_lt_success_value() {
     $data = ['value' => 5];
     $rules = ['value' => 'lt:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LT Success Value', $return['valid']);
+    printTestResult('Test LT Success Value', $return->passes());
 }
 
 function test_lt_fail_value() {
     $data = ['value' => 15];
     $rules = ['value' => 'lt:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test LT Fail Value', !$return['valid']);
+    printTestResult('Test LT Fail Value', !$return->passes());
 }
 
 function test_gte_success_field() {
     $data = ['value' => 10, 'min' => 10];
     $rules = ['value' => 'gte:min'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GTE Success Field', $return['valid']);
+    printTestResult('Test GTE Success Field', $return->passes());
 }
 
 function test_gte_fail_field() {
     $data = ['value' => 8, 'min' => 10];
     $rules = ['value' => 'gte:min'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GTE Fail Field', !$return['valid']);
+    printTestResult('Test GTE Fail Field', !$return->passes());
 }
 
 function test_gte_success_value() {
     $data = ['value' => 10];
     $rules = ['value' => 'gte:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GTE Success Value', $return['valid']);
+    printTestResult('Test GTE Success Value', $return->passes());
 }
 
 function test_gte_fail_value() {
     $data = ['value' => 5];
     $rules = ['value' => 'gte:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GTE Fail Value', !$return['valid']);
+    printTestResult('Test GTE Fail Value', !$return->passes());
 }
 
 function test_gt_success_field() {
     $data = ['value' => 11, 'min' => 10];
     $rules = ['value' => 'gt:min'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GT Success Field', $return['valid']);
+    printTestResult('Test GT Success Field', $return->passes());
 }
 
 function test_gt_fail_field() {
     $data = ['value' => 10, 'min' => 10];
     $rules = ['value' => 'gt:min'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GT Fail Field', !$return['valid']);
+    printTestResult('Test GT Fail Field', !$return->passes());
 }
 
 function test_gt_success_value() {
     $data = ['value' => 11];
     $rules = ['value' => 'gt:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GT Success Value', $return['valid']);
+    printTestResult('Test GT Success Value', $return->passes());
 }
 
 function test_gt_fail_value() {
     $data = ['value' => 9];
     $rules = ['value' => 'gt:10'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test GT Fail Value', !$return['valid']);
+    printTestResult('Test GT Fail Value', !$return->passes());
 }
 
 function test_accepted_success()
@@ -725,7 +725,7 @@ function test_accepted_success()
         $data = ['field' => $val];
         $rules = ['field' => 'accepted'];
         $return = Heimdall::validate($rules, $data);
-        printTestResult("Test Accepted Success with value '{$val}'", $return['valid']);
+        printTestResult("Test Accepted Success with value '{$val}'", $return->passes());
     }
 }
 
@@ -734,7 +734,7 @@ function test_accepted_fail()
     $data = ['field' => 'no'];
     $rules = ['field' => 'accepted'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Accepted Fail with value \'no\'', !$return['valid']);
+    printTestResult('Test Accepted Fail with value \'no\'', !$return->passes());
 }
 
 function test_accepted_if_success()
@@ -747,7 +747,7 @@ function test_accepted_if_success()
         'agreement' => 'accepted_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AcceptedIf Success when status is active', $return['valid']);
+    printTestResult('Test AcceptedIf Success when status is active', $return->passes());
 }
 
 function test_accepted_if_skip()
@@ -760,7 +760,7 @@ function test_accepted_if_skip()
         'agreement' => 'accepted_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AcceptedIf Skip when status is inactive', $return['valid']);
+    printTestResult('Test AcceptedIf Skip when status is inactive', $return->passes());
 }
 
 function test_accepted_if_fail()
@@ -773,7 +773,7 @@ function test_accepted_if_fail()
         'agreement' => 'accepted_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AcceptedIf Fail when status is active', !$return['valid']);
+    printTestResult('Test AcceptedIf Fail when status is active', !$return->passes());
 }
 
 
@@ -784,7 +784,7 @@ function test_declined_success()
         $data = ['field' => $val];
         $rules = ['field' => 'declined'];
         $return = Heimdall::validate($rules, $data);
-        printTestResult("Test Declined Success with value '{$val}'", $return['valid']);
+        printTestResult("Test Declined Success with value '{$val}'", $return->passes());
     }
 }
 
@@ -793,7 +793,7 @@ function test_declined_fail()
     $data = ['field' => 'yes'];
     $rules = ['field' => 'declined'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Declined Fail with value \'yes\'', !$return['valid']);
+    printTestResult('Test Declined Fail with value \'yes\'', !$return->passes());
 }
 
 function test_declined_if_success()
@@ -806,7 +806,7 @@ function test_declined_if_success()
         'agreement' => 'declined_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test DeclinedIf Skip when status is inactive', $return['valid']);
+    printTestResult('Test DeclinedIf Skip when status is inactive', $return->passes());
 }
 
 function test_declined_if_fail()
@@ -819,7 +819,7 @@ function test_declined_if_fail()
         'agreement' => 'declined_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test DeclinedIf Fail when status is active', !$return['valid']);
+    printTestResult('Test DeclinedIf Fail when status is active', !$return->passes());
 }
 
 function test_declined_if_success_when_declined()
@@ -832,7 +832,7 @@ function test_declined_if_success_when_declined()
         'agreement' => 'declined_if:status,active',
     ];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test DeclinedIf Success when status is active and agreement declined', $return['valid']);
+    printTestResult('Test DeclinedIf Success when status is active and agreement declined', $return->passes());
 }
 
 
@@ -841,7 +841,7 @@ function test_regex_success()
     $data = ['username' => 'user123'];
     $rules = ['username' => 'regex:^[a-z0-9]+$'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Regex Success with valid username', $return['valid']);
+    printTestResult('Test Regex Success with valid username', $return->passes());
 }
 
 function test_regex_fail()
@@ -849,7 +849,7 @@ function test_regex_fail()
     $data = ['username' => 'User_123'];
     $rules = ['username' => 'regex:^[a-z0-9]+$'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Regex Fail with invalid username', !$return['valid']);
+    printTestResult('Test Regex Fail with invalid username', !$return->passes());
 }
 
 function test_regex_with_delimiters_success()
@@ -857,7 +857,7 @@ function test_regex_with_delimiters_success()
     $data = ['username' => 'user123'];
     $rules = ['username' => 'regex:/^[a-z0-9]+$/i'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Regex with delimiters Success', $return['valid']);
+    printTestResult('Test Regex with delimiters Success', $return->passes());
 }
 
 function test_regex_invalid_pattern()
@@ -865,9 +865,7 @@ function test_regex_invalid_pattern()
     $data = ['username' => 'user123'];
     $rules = ['username' => 'regex:/[a-z0-9+/'];
     $return = Heimdall::validate($rules, $data);
-    $passed = isset($return['valid']) && $return['valid'] === false &&
-              isset($return['errors']) && count($return['errors']) > 0;
-    printTestResult('Test Regex Invalid Pattern', $passed);
+    printTestResult('Test Regex Invalid Pattern', !$return->passes());
 }
 
 function test_uuid_success()
@@ -884,7 +882,7 @@ function test_uuid_success()
         $data = ['id' => $uuid];
         $rules = ['id' => 'uuid'];
         $return = Heimdall::validate($rules, $data);
-        printTestResult("Test UUID Success with value {$uuid}", $return['valid']);
+        printTestResult("Test UUID Success with value {$uuid}", $return->passes());
     }
 }
 
@@ -894,7 +892,7 @@ function test_uuid_version4_success()
     $data = ['id' => $uuid];
     $rules = ['id' => 'uuid:4'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test UUID v4 Success", $return['valid']);
+    printTestResult("Test UUID v4 Success", $return->passes());
 }
 
 function test_uuid_version4_fail()
@@ -903,7 +901,7 @@ function test_uuid_version4_fail()
     $data = ['id' => $uuid];
     $rules = ['id' => 'uuid:4'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test UUID v4 Fail with v3 UUID", !$return['valid']);
+    printTestResult("Test UUID v4 Fail with v3 UUID", !$return->passes());
 }
 
 function test_uuid_invalid()
@@ -912,7 +910,7 @@ function test_uuid_invalid()
     $data = ['id' => $uuid];
     $rules = ['id' => 'uuid'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test UUID Invalid", !$return['valid']);
+    printTestResult("Test UUID Invalid", !$return->passes());
 }
 
 function test_before_or_equal_date_success()
@@ -920,7 +918,7 @@ function test_before_or_equal_date_success()
     $data = ['start_date' => '2025-08-10'];
     $rules = ['start_date' => 'before_or_equal:2025-08-12'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Date Success', $return['valid']);
+    printTestResult('Test BeforeOrEqual Date Success', $return->passes());
 }
 
 function test_before_or_equal_date_fail()
@@ -928,7 +926,7 @@ function test_before_or_equal_date_fail()
     $data = ['start_date' => '2025-08-15'];
     $rules = ['start_date' => 'before_or_equal:2025-08-12'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Date Fail', !$return['valid']);
+    printTestResult('Test BeforeOrEqual Date Fail', !$return->passes());
 }
 
 function test_before_or_equal_datetime_success()
@@ -936,7 +934,7 @@ function test_before_or_equal_datetime_success()
     $data = ['start_datetime' => '2025-08-12 10:30:00'];
     $rules = ['start_datetime' => 'before_or_equal:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual DateTime Success', $return['valid']);
+    printTestResult('Test BeforeOrEqual DateTime Success', $return->passes());
 }
 
 function test_before_or_equal_datetime_fail()
@@ -944,7 +942,7 @@ function test_before_or_equal_datetime_fail()
     $data = ['start_datetime' => '2025-08-12 14:00:00'];
     $rules = ['start_datetime' => 'before_or_equal:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual DateTime Fail', !$return['valid']);
+    printTestResult('Test BeforeOrEqual DateTime Fail', !$return->passes());
 }
 
 function test_before_or_equal_today_success()
@@ -953,7 +951,7 @@ function test_before_or_equal_today_success()
     $data = ['date' => $today];
     $rules = ['date' => 'before_or_equal:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Today Success', $return['valid']);
+    printTestResult('Test BeforeOrEqual Today Success', $return->passes());
 }
 
 function test_before_or_equal_today_fail()
@@ -962,7 +960,7 @@ function test_before_or_equal_today_fail()
     $data = ['date' => $tomorrow];
     $rules = ['date' => 'before_or_equal:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Today Fail', !$return['valid']);
+    printTestResult('Test BeforeOrEqual Today Fail', !$return->passes());
 }
 
 function test_before_or_equal_yesterday_success()
@@ -971,7 +969,7 @@ function test_before_or_equal_yesterday_success()
     $data = ['date' => $yesterday];
     $rules = ['date' => 'before_or_equal:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Yesterday Success', $return['valid']);
+    printTestResult('Test BeforeOrEqual Yesterday Success', $return->passes());
 }
 
 function test_before_or_equal_yesterday_fail()
@@ -980,7 +978,7 @@ function test_before_or_equal_yesterday_fail()
     $data = ['date' => $today];
     $rules = ['date' => 'before_or_equal:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Yesterday Fail', !$return['valid']);
+    printTestResult('Test BeforeOrEqual Yesterday Fail', !$return->passes());
 }
 
 function test_before_or_equal_tomorrow_success()
@@ -989,7 +987,7 @@ function test_before_or_equal_tomorrow_success()
     $data = ['date' => $today];
     $rules = ['date' => 'before_or_equal:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Tomorrow Success', $return['valid']);
+    printTestResult('Test BeforeOrEqual Tomorrow Success', $return->passes());
 }
 
 function test_before_or_equal_tomorrow_fail()
@@ -998,7 +996,7 @@ function test_before_or_equal_tomorrow_fail()
     $data = ['date' => $dayAfterTomorrow];
     $rules = ['date' => 'before_or_equal:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test BeforeOrEqual Tomorrow Fail', !$return['valid']);
+    printTestResult('Test BeforeOrEqual Tomorrow Fail', !$return->passes());
 }
 
 function test_after_or_equal_datetime_success()
@@ -1006,7 +1004,7 @@ function test_after_or_equal_datetime_success()
     $data = ['start_datetime' => '2025-08-12 12:00:00'];
     $rules = ['start_datetime' => 'after_or_equal:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual DateTime Success', $return['valid']);
+    printTestResult('Test AfterOrEqual DateTime Success', $return->passes());
 }
 
 function test_after_or_equal_datetime_fail()
@@ -1014,7 +1012,7 @@ function test_after_or_equal_datetime_fail()
     $data = ['start_datetime' => '2025-08-12 10:00:00'];
     $rules = ['start_datetime' => 'after_or_equal:2025-08-12 12:00:00'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual DateTime Fail', !$return['valid']);
+    printTestResult('Test AfterOrEqual DateTime Fail', !$return->passes());
 }
 
 function test_after_or_equal_today_datetime_success()
@@ -1023,7 +1021,7 @@ function test_after_or_equal_today_datetime_success()
     $data = ['date' => $today];
     $rules = ['date' => 'after_or_equal:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual Today DateTime Success', $return['valid']);
+    printTestResult('Test AfterOrEqual Today DateTime Success', $return->passes());
 }
 
 function test_after_or_equal_today_datetime_fail()
@@ -1032,7 +1030,7 @@ function test_after_or_equal_today_datetime_fail()
     $data = ['date' => $yesterday];
     $rules = ['date' => 'after_or_equal:today'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual Today DateTime Fail', !$return['valid']);
+    printTestResult('Test AfterOrEqual Today DateTime Fail', !$return->passes());
 }
 
 function test_after_or_equal_tomorrow_datetime_success()
@@ -1041,7 +1039,7 @@ function test_after_or_equal_tomorrow_datetime_success()
     $data = ['date' => $tomorrow];
     $rules = ['date' => 'after_or_equal:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual Tomorrow DateTime Success', $return['valid']);
+    printTestResult('Test AfterOrEqual Tomorrow DateTime Success', $return->passes());
 }
 
 function test_after_or_equal_tomorrow_datetime_fail()
@@ -1050,7 +1048,7 @@ function test_after_or_equal_tomorrow_datetime_fail()
     $data = ['date' => $today];
     $rules = ['date' => 'after_or_equal:tomorrow'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual Tomorrow DateTime Fail', !$return['valid']);
+    printTestResult('Test AfterOrEqual Tomorrow DateTime Fail', !$return->passes());
 }
 
 function test_after_or_equal_yesterday_datetime_success()
@@ -1059,7 +1057,7 @@ function test_after_or_equal_yesterday_datetime_success()
     $data = ['date' => $yesterday];
     $rules = ['date' => 'after_or_equal:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual Yesterday DateTime Success', $return['valid']);
+    printTestResult('Test AfterOrEqual Yesterday DateTime Success', $return->passes());
 }
 
 function test_after_or_equal_yesterday_datetime_fail()
@@ -1068,28 +1066,28 @@ function test_after_or_equal_yesterday_datetime_fail()
     $data = ['date' => $twoDaysAgo];
     $rules = ['date' => 'after_or_equal:yesterday'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test AfterOrEqual Yesterday DateTime Fail', !$return['valid']);
+    printTestResult('Test AfterOrEqual Yesterday DateTime Fail', !$return->passes());
 }
 
 function test_combined_rules_success(){
     $data = ['name' => 'John Doe', 'age' => 18];
     $rules = ['name' => 'required|string|min:3', 'age' => 'required|integer|max:80'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Combined Rules Success', $return['valid']);
+    printTestResult('Test Combined Rules Success', $return->passes());
 }
 
 function test_combined_rules_fails_because_age_over_80(){
     $data = ['name' => 'John Doe', 'age' => 81];
     $rules = ['name' => 'required|string|min:3', 'age' => 'required|integer|max:80'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Combined Rules Fail (Age over 80)', !$return['valid']);
+    printTestResult('Test Combined Rules Fail (Age over 80)', !$return->passes());
 }
 
 function test_combined_rules_fails_because_age_is_required(){
     $data = ['name' => 'John Doe'];
     $rules = ['name' => 'required|string|min:3', 'age' => 'required|integer|max:80'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult('Test Combined Rules Fail (Age required)', !$return['valid']);
+    printTestResult('Test Combined Rules Fail (Age required)', !$return->passes());
 }
 
 function test_prohibited_if_valid()
@@ -1097,7 +1095,7 @@ function test_prohibited_if_valid()
     $data = ['status' => 'inactive'];
     $rules = ['reason' => 'prohibited_if:status,active'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test Prohibited If - Valid", $return['valid']);
+    printTestResult("Test Prohibited If - Valid", $return->passes());
 }
 
 function test_prohibited_if_invalid()
@@ -1105,7 +1103,7 @@ function test_prohibited_if_invalid()
     $data = ['status' => 'active', 'reason' => 'maintenance'];
     $rules = ['reason' => 'prohibited_if:status,active'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test Prohibited If - Invalid", !$return['valid']);
+    printTestResult("Test Prohibited If - Invalid", !$return->passes());
 }
 
 function test_prohibited_if_in_valid()
@@ -1113,7 +1111,7 @@ function test_prohibited_if_in_valid()
     $data = ['role' => 'guest'];
     $rules = ['access_level' => 'prohibited_if_in:role,admin,manager'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test Prohibited If In - Valid", $return['valid']);
+    printTestResult("Test Prohibited If In - Valid", $return->passes());
 }
 
 function test_prohibited_if_in_invalid()
@@ -1121,5 +1119,5 @@ function test_prohibited_if_in_invalid()
     $data = ['role' => 'admin', 'access_level' => 'high'];
     $rules = ['access_level' => 'prohibited_if_in:role,admin,manager'];
     $return = Heimdall::validate($rules, $data);
-    printTestResult("Test Prohibited If In - Invalid", !$return['valid']);
+    printTestResult("Test Prohibited If In - Invalid", !$return->passes());
 }

@@ -4,62 +4,90 @@ namespace Bacarin;
 
 class Heimdall
 {
-    public static function validate(array $rules, array $data): array
+    protected array $data = [];
+    protected array $rules = [];
+    protected array $errors = [];
+    protected bool $valid = true;
+
+    public static function validate(array $rules, array $data)
     {
-        $errors = [];
+        $instance = new self();
+        $instance->rules = $rules;
+        $instance->data = $data;
+        $instance->runValidation();
 
-        foreach ($rules as $field => $ruleString) {
+
+        return $instance;
+    }
+
+    public function passes(): bool
+    {
+        return $this->valid;
+    }
+
+    public function fails(): bool
+    {
+        return !$this->valid;
+    }
+
+    public function errors(): array
+    {
+        return $this->errors;
+    }
+    
+    protected function runValidation(): void
+    {
+        $this->errors = [];
+
+        foreach ($this->rules as $field => $ruleString) {
             $ruleList = explode('|', $ruleString);
-            $hasRequired = self::hasRequiredRule($ruleList);
-            $hasSometimes = in_array('sometimes', $ruleList);
-            $hasNullable = in_array('nullable', $ruleList);
-            $fieldExists = self::dataKeyExists($data, $field);
-            $value = self::getDataValue($data, $field);
 
-            if (!$fieldExists && $hasSometimes && !$hasRequired) {
+            $hasSometimes = in_array('sometimes', $ruleList, true);
+            $hasNullable  = in_array('nullable', $ruleList, true);
+            $isRequired   = in_array('required', $ruleList, true);
+            $fieldExists  = self::fieldExistsInData($this->data, $field);
+
+            if ($hasSometimes && !$fieldExists) {
                 continue;
             }
 
-            foreach ($ruleList as $rule) {
-                $params = null;
+            if (!$fieldExists && !$isRequired && !$hasSometimes) {
+                continue;
+            }
 
-                if (strpos($rule, ':') !== false) {
-                    [$rule, $params] = explode(':', $rule, 2);
-                }
+            $value = $fieldExists ? self::getDataValue($this->data, $field) : null;
 
-                if ($rule === 'sometimes' || $rule === 'nullable') {
+            if ($hasNullable && $value === null) {
+                continue;
+            }
+
+            foreach ($ruleList as $ruleItem) {
+                if ($ruleItem === 'sometimes' || $ruleItem === 'nullable') {
                     continue;
                 }
 
-                if ($hasNullable && ($value === null || $value === '')) {
-                    break;
+                $params = null;
+                if (strpos($ruleItem, ':') !== false) {
+                    [$rule, $params] = explode(':', $ruleItem, 2);
+                } else {
+                    $rule = $ruleItem;
                 }
 
                 $ruleName = self::ruleToClass($rule);
                 $class = __NAMESPACE__ . '\\Heimdall\\Rules\\' . $ruleName . 'Rule';
 
                 if (class_exists($class)) {
-                    $result = $class::validate($field, $value, $params, $data);
+                    $result = $class::validate($field, $value, $params, $this->data);
                     if ($result !== true) {
-                        $errors[$field][] = $result;
+                        $this->errors[$field][] = $result;
                     }
                 } else {
-                    $errors[$field][] = "Validation rule '$rule' is not supported.";
+                    $this->errors[$field][] = "Validation rule '$rule' is not supported.";
                 }
             }
         }
 
-        return ['valid' => empty($errors), 'errors' => $errors];
-    }
-
-    private static function hasRequiredRule(array $rules): bool
-    {
-        foreach ($rules as $rule) {
-            if (stripos($rule, 'required')) {
-                return true;
-            }
-        }
-        return false;
+        $this->valid = empty($this->errors);
     }
 
     private static function ruleToClass(string $rule): string
@@ -83,7 +111,7 @@ class Heimdall
         return $data;
     }
 
-    private static function dataKeyExists(array $data, string $key): bool
+    private static function fieldExistsInData(array $data, string $key): bool
     {
         $keys = explode('.', $key);
         foreach ($keys as $k) {
