@@ -1070,3 +1070,56 @@ function test_after_or_equal_yesterday_datetime_fail()
     $return = Heimdall::validate($rules, $data);
     printTestResult('Test AfterOrEqual Yesterday DateTime Fail', !$return['valid']);
 }
+
+function test_combined_rules_success(){
+    $data = ['name' => 'John Doe', 'age' => 18];
+    $rules = ['name' => 'required|string|min:3', 'age' => 'required|integer|max:80'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Combined Rules Success', $return['valid']);
+}
+
+function test_combined_rules_fails_because_age_over_80(){
+    $data = ['name' => 'John Doe', 'age' => 81];
+    $rules = ['name' => 'required|string|min:3', 'age' => 'required|integer|max:80'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Combined Rules Fail (Age over 80)', !$return['valid']);
+}
+
+function test_combined_rules_fails_because_age_is_required(){
+    $data = ['name' => 'John Doe'];
+    $rules = ['name' => 'required|string|min:3', 'age' => 'required|integer|max:80'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult('Test Combined Rules Fail (Age required)', !$return['valid']);
+}
+
+function test_prohibited_if_valid()
+{
+    $data = ['status' => 'inactive'];
+    $rules = ['reason' => 'prohibited_if:status,active'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test Prohibited If - Valid", $return['valid']);
+}
+
+function test_prohibited_if_invalid()
+{
+    $data = ['status' => 'active', 'reason' => 'maintenance'];
+    $rules = ['reason' => 'prohibited_if:status,active'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test Prohibited If - Invalid", !$return['valid']);
+}
+
+function test_prohibited_if_in_valid()
+{
+    $data = ['role' => 'guest'];
+    $rules = ['access_level' => 'prohibited_if_in:role,admin,manager'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test Prohibited If In - Valid", $return['valid']);
+}
+
+function test_prohibited_if_in_invalid()
+{
+    $data = ['role' => 'admin', 'access_level' => 'high'];
+    $rules = ['access_level' => 'prohibited_if_in:role,admin,manager'];
+    $return = Heimdall::validate($rules, $data);
+    printTestResult("Test Prohibited If In - Invalid", !$return['valid']);
+}
