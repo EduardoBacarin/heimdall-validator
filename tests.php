@@ -8,7 +8,7 @@
 require_once 'vendor/autoload.php';
 
 use Bacarin\Heimdall;
-
+$passed = $failed = 0;
 if (count($argv) > 1) {
     foreach ($argv as $arg) {
         function_exists('test_' . $arg) and call_user_func('test_' . $arg);
@@ -19,12 +19,17 @@ if (count($argv) > 1) {
             function_exists($function) and call_user_func($function);
         }
     }
-    echo "Tested  " . count(get_defined_functions()['user']) . " functions" . PHP_EOL;
+    echo PHP_EOL;
+    printf("Total: %s - Pass: %s - Fails: %s", $passed+$failed, $passed, $failed);
+    echo PHP_EOL;
 }
 
 function printTestResult(string $name, bool $pass): void {
+    global $passed, $failed;
     $color = $pass ? "\e[32m" : "\e[31m";
     $label = $pass ? 'PASS' : 'FAIL';
+
+    if($pass) $passed++; else $failed++;
     $reset = "\033[0m";
 
     $dot_count = 80 - strlen($name) - strlen($label);
