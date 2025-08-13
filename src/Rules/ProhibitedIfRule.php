@@ -11,22 +11,16 @@ class ProhibitedIfRule
         }
 
         if (count($parameters) < 2) {
-            return true; // ou false, dependendo da lógica
+            return true;
         }
 
         $otherField = $parameters[0];
         $expectedValue = $parameters[1];
 
         if ((isset($data[$otherField]) && $data[$otherField] == $expectedValue) && isset($data[$attribute])) {
-            return false;
+            return "The field {$attribute} is prohibited when {$parameters[0]} is {$parameters[1]}.";
         }
 
         return true;
-    }
-
-
-    public static function message($field, $parameters)
-    {
-        return "The field {$field} is prohibited when {$parameters[0]} is {$parameters[1]}.";
     }
 }

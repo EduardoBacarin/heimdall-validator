@@ -18,16 +18,10 @@ class ProhibitedIfInRule
         $expectedValues = $parameters;
 
         if (isset($data[$otherField]) && in_array($data[$otherField], $expectedValues) && isset($data[$attribute])){
-            return false;
+            $values = implode(', ', $parameters);
+            return "The field {$attribute} is prohibited when {$otherField} is in [{$values}].";
         }
 
         return true;
-    }
-    
-    public static function message($field, $parameters)
-    {
-        $otherField = array_shift($parameters);
-        $values = implode(', ', $parameters);
-        return "The field {$field} is prohibited when {$otherField} is in [{$values}].";
     }
 }

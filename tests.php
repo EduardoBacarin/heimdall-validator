@@ -1121,5 +1121,6 @@ function test_prohibited_if_in_invalid()
     $data = ['role' => 'admin', 'access_level' => 'high'];
     $rules = ['access_level' => 'prohibited_if_in:role,admin,manager'];
     $return = Heimdall::validate($rules, $data);
+    var_dump($return);exit;
     printTestResult("Test Prohibited If In - Invalid", !$return['valid']);
 }
